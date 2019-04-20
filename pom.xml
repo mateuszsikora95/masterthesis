@@ -15,7 +15,6 @@
     <description>Mastter thesis</description>
     <packaging>war</packaging>
 
-
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -35,6 +34,12 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>18.3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.1</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
