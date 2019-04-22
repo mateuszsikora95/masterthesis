@@ -2,8 +2,8 @@
 FROM maven:3.6.0-jdk-11-slim
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app
-COPY ojdbc8.jar /usr/src/app
-RUN mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar -Dfile=/usr/src/app/ojdbc8.jar -DgeneratePom=true
+COPY ojdbc6.jar /usr/src/app
+RUN mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar -Dfile=/usr/src/app/ojdbc6.jar -DgeneratePom=true
 RUN mvn -f /usr/src/app/pom.xml clean package
 
 # Stage 1, based on tomcat, with deployed war
