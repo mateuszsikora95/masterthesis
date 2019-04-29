@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Random;
 
 @RestController
 public class Controller {
@@ -22,9 +23,9 @@ public class Controller {
         this.randomFileReader = randomFileReader;
     }
 
-    @GetMapping(path = "database/{size}")
-    public Page<Customer> getCustomers(@PathVariable int size) {
-        return lineItemRepository.findAll(PageRequest.of(0, size));
+    @GetMapping(path = "database")
+    public Page<Customer> getCustomers() {
+        return lineItemRepository.findAll(PageRequest.of((new Random()).nextInt((int) (lineItemRepository.count() - 1)) + 1, 1));
     }
 
     @GetMapping(path = "file")
