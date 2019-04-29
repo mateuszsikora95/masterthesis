@@ -1,6 +1,7 @@
 package com.example.masterthesis;
 
 import com.example.masterthesis.entities.Customer;
+import com.example.masterthesis.entities.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,7 @@ public class Controller {
     }
 
     @GetMapping(path = "database")
-    public Page<Customer> getCustomers() {
+    public Page<Orders> getCustomers() {
         return lineItemRepository.findAll(PageRequest.of((new Random()).nextInt((int) (lineItemRepository.count() - 1)) + 1, 1));
     }
 
