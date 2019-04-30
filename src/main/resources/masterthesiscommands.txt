@@ -1,5 +1,9 @@
 sudo apt-get update
 
+//////////////
+
+docker create container -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=docker library/postgres
+//////////
 
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 
@@ -22,7 +26,7 @@ kingpin1,.
 sudo docker login -u matisek321 -p kingpin1,.
 docker pull store/oracle/database-enterprise:12.2.0.1
 docker network create --scope swarm --attachable net --driver bridge
-docker run -d -p 5500:5500 -p 1521:1521 --network host --name oracle --env-file /home/mateusz_sikora_995/work/masterthesis/db_env.dat store/oracle/database-enterprise:12.2.0.1
+docker run -d -p 5500:5500 -p 1521:1521 --network host --name oracle --env-file /home/mateusz_sikora_995/work/masterthesis/db_env.dat store/oracle/database-enterprise:12.2.0.1 
 docker logs -f oracle
 
 docker exec -it oracle bash
@@ -36,6 +40,6 @@ docker cp 2gb.dmp oracle:/home/oracle/backup/2gb.dmp
 docker exec oracle /bin/bash -c "source ~/.bash_profile && impdp zsbd/zsbd dumpfile=2gb.dmp directory=bdir"
 
 cd work/masterthesis
-docker build --network my-net -t performancetestapp .
+docker build --network my-net -t performancetestapp . 
 docker container create --name test --net my-net -p 8080:8080 performancetestapp
 
