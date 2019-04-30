@@ -7,6 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -90,7 +91,9 @@ public class StartupMakeFiles implements ApplicationListener<ApplicationReadyEve
                         Path path = Paths.get(name + "/" + x);
                         if(!path.toFile().exists()) {
                             Files.createFile(path);
-                            Files.newBufferedWriter(path).write(fileContent);
+                            BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
+                            bufferedWriter.write(fileContent);
+                            bufferedWriter.flush();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
