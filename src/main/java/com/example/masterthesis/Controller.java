@@ -1,32 +1,28 @@
 package com.example.masterthesis;
 
-import com.example.masterthesis.entities.Customer;
-import com.example.masterthesis.entities.Orders;
+import com.example.masterthesis.entities.Songdata;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.List;
 
 @RestController
 public class Controller {
 
-    private LineItemRepository lineItemRepository;
+    private SongsRepository songsRepository;
     private RandomFileReader randomFileReader;
 
     @Autowired
-    public Controller(LineItemRepository lineItemRepository, RandomFileReader randomFileReader) {
-        this.lineItemRepository = lineItemRepository;
+    public Controller(SongsRepository songsRepository, RandomFileReader randomFileReader) {
+        this.songsRepository = songsRepository;
         this.randomFileReader = randomFileReader;
     }
 
     @GetMapping(path = "database")
-    public Page<Orders> getCustomers() {
-        return lineItemRepository.findAll(PageRequest.of((new Random()).nextInt((int) (lineItemRepository.count() - 1)) + 1, 1));
+    public List<Songdata> getCustomers() {
+        return songsRepository.findAll();
     }
 
     @GetMapping(path = "file")
