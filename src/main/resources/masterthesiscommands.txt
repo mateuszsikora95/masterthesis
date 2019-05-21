@@ -1,45 +1,18 @@
 sudo apt-get update
-
-//////////////
-
-docker create container -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=docker library/postgres
-//////////
-
-export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-
-echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-sudo apt-get update && sudo apt-get install google-cloud-sdk
-
-
-export BOTO_CONFIG=/dev/null
-gsutil cp gs://msikoraa/*.dmp .
-
 sudo apt install docker.io
 mkdir work/
 cd work/
 git clone https://github.com/mateuszsikora95/masterthesis.git
-221050@student.pwr.edu.pl
-kingpin1,.
-sudo docker login -u matisek321 -p kingpin1,.
-docker pull store/oracle/database-enterprise:12.2.0.1
-docker network create --scope swarm --attachable net --driver bridge
-docker run -d -p 5500:5500 -p 1521:1521 --network host --name oracle --env-file /home/mateusz_sikora_995/work/masterthesis/db_env.dat store/oracle/database-enterprise:12.2.0.1 
-docker logs -f oracle
-
-docker exec -it oracle bash
-sqlplus zsbd/zsbd
-!mkdir -p /home/oracle/backup;
-create directory bdir as '/home/oracle/backup';
-exit
-exit
+login
+haslo
+sudo docker login -u login -p haslo
+cd masterthesis/database
+docker network create --attachable bridgenet --driver bridge
+docker network create --attachable overlaynet --driver overlay
+docker build --network bridgenet -t postgresimage .
+docker logs -f postgres
 cd ..
-docker cp 2gb.dmp oracle:/home/oracle/backup/2gb.dmp
-docker exec oracle /bin/bash -c "source ~/.bash_profile && impdp zsbd/zsbd dumpfile=2gb.dmp directory=bdir"
-
-cd work/masterthesis
-docker build --network my-net -t performancetestapp . 
+docker build --network my-net -t performancetestapp .
+docker container create --name postgres --net bridge -p 5432:5432 postgresimage
 docker container create --name test --net my-net -p 8080:8080 performancetestapp
 
