@@ -13,6 +13,16 @@ public class Songdata {
     private String link;
     private String text;
 
+    public Songdata() {
+    }
+
+    public Songdata(String artist, String song, String link, String text) {
+        this.artist = artist;
+        this.song = song;
+        this.link = link;
+        this.text = text;
+    }
+
     @Basic
     @Column(name = "artist")
     public String getArtist() {
