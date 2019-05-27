@@ -37,13 +37,15 @@ public class Controller {
     }
 
     @GetMapping(path = "databaseWriteLittle")
-    public List<Songdata> writeLittleSongs() {
-        return songsRepository.saveAll(generateSongs(30));
+    public boolean writeLittleSongs() {
+        songsRepository.saveAll(generateSongs(30));
+        return true;
     }
 
     @GetMapping(path = "databaseWriteMuch")
-    public List<Songdata> writeMuchSongs() {
-        return songsRepository.saveAll(generateSongs(3000));
+    public boolean writeMuchSongs() {
+        songsRepository.saveAll(generateSongs(3000));
+        return true;
     }
 
     private List<Songdata> generateSongs(int numberOfSongs) {
