@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @RestController
 public class Controller {
 
-    static int numberOfRecords = 0;
+    private static int numberOfRecords = 0;
     private SongsRepository songsRepository;
 
     @Autowired
@@ -58,7 +58,7 @@ public class Controller {
     }
 
     private String generateData(int length) {
-        return Stream.generate(() -> (char) (new Random().nextInt(255))).map(Object::toString).limit(new Random().nextInt(length) + 1).collect(Collectors.joining());
+        return Stream.generate(() -> (char) (new Random().nextInt(122) + 1)).map(Object::toString).limit(new Random().nextInt(length) + 1).collect(Collectors.joining());
     }
 
 }
