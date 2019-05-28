@@ -52,13 +52,13 @@ public class Controller {
     private List<Songdata> generateSongs(int numberOfSongs) {
         List<Songdata> songdata = new ArrayList<>();
         for (int i = 0; i < numberOfSongs; i++) {
-            songdata.add(new Songdata(generateData(150) + numberOfRecords++, generateData(60), generateData(80), generateData(400)));
+            songdata.add(new Songdata(generateData(150) + numberOfRecords++, generateData(60)+ numberOfRecords++, generateData(80)+ numberOfRecords++, generateData(400) + numberOfRecords++));
         }
         return songdata;
     }
 
     private String generateData(int length) {
-        return Stream.generate(() -> (char) (new Random().nextInt(30) + 41)).map(Object::toString).limit(new Random().nextInt(length) + 1).collect(Collectors.joining());
+        return Stream.generate(() -> (char) (new Random().nextInt(255))).map(Object::toString).limit(new Random().nextInt(length) + 1).collect(Collectors.joining());
     }
 
 }
