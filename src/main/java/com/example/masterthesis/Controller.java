@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @RestController
 public class Controller {
 
-
+    static int numberOfRecords = 0;
     private SongsRepository songsRepository;
 
     @Autowired
@@ -52,7 +52,7 @@ public class Controller {
     private List<Songdata> generateSongs(int numberOfSongs) {
         List<Songdata> songdata = new ArrayList<>();
         for (int i = 0; i < numberOfSongs; i++) {
-            songdata.add(new Songdata(generateData(15), generateData(30), generateData(40), generateData(600)));
+            songdata.add(new Songdata(generateData(150) + numberOfRecords++, generateData(60), generateData(80), generateData(400)));
         }
         return songdata;
     }
