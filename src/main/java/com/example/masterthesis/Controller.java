@@ -25,7 +25,7 @@ public class Controller {
     @GetMapping(path = "database")
     public List<Songdata> getSongs() {
         return songsRepository.findAll(
-                PageRequest.of((new Random()).nextInt(1750), 30)
+                PageRequest.of(2, 30)
         ).getContent();
     }
 
