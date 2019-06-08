@@ -1,18 +1,15 @@
 package com.example.masterthesis;
 
 import com.example.masterthesis.entities.Songdata;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class Controller {
@@ -37,28 +34,25 @@ public class Controller {
         return songsRepository.findAll();
     }
 
-    @GetMapping(path = "databaseWriteLittle")
-    public boolean writeLittleSongs() {
-        songsRepository.saveAll(generateSongs(30));
+    @PostMapping(path = "databaseWriteLittle")
+    public boolean writeLittleSongs(@RequestBody List<Songdata> songdata) {
+        songsRepository.saveAll(saveSongData(songdata));
         return true;
     }
 
     @GetMapping(path = "databaseWriteMuch/{number}")
-    public boolean writeMuchSongs(@PathVariable  int number) {
-        songsRepository.saveAll(generateSongs(number));
+    public boolean writeMuchSongs(@RequestBody List<Songdata> songdata) {
+        songsRepository.saveAll(saveSongData(songdata));
         return true;
     }
 
-    private List<Songdata> generateSongs(int numberOfSongs) {
-        List<Songdata> songdata = new ArrayList<>();
-        for (int i = 0; i < numberOfSongs; i++) {
-            songdata.add(new Songdata(generateData(150) + numberOfRecords++, generateData(60)+ numberOfRecords++, generateData(80)+ numberOfRecords++, generateData(400) + numberOfRecords++));
+    private List<Songdata> saveSongData(List<Songdata> songdata) {
+        for (Songdata songdatum : songdata) {
+            songdatum.setArtist(songdatum.getArtist() + numberOfRecords++);
+            songdatum.setLink(songdatum.getLink() + numberOfRecords++);
+            songdatum.setSong(songdatum.getSong() + numberOfRecords++);
+            songdatum.setText(songdatum.getText() + numberOfRecords++);
         }
         return songdata;
     }
-
-    private String generateData(int length) {
-        return Stream.generate(() -> (char) (new Random().nextInt(122) + 1)).map(Object::toString).limit(new Random().nextInt(length) + 1).collect(Collectors.joining());
-    }
-
 }
