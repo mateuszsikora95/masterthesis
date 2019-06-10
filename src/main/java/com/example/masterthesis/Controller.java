@@ -35,13 +35,13 @@ public class Controller {
     }
 
     @PostMapping(path = "databaseWriteLittle")
-    public boolean writeLittleSongs(@RequestBody List<Songdata> songdata) {
+    public List<Songdata> writeLittleSongs(@RequestBody List<Songdata> songdata) {
         songsRepository.saveAll(saveSongData(songdata));
         return true;
     }
 
     @GetMapping(path = "databaseWriteMuch/{number}")
-    public boolean writeMuchSongs(@RequestBody List<Songdata> songdata) {
+    public List<Songdata> writeMuchSongs(@RequestBody List<Songdata> songdata) {
         songsRepository.saveAll(saveSongData(songdata));
         return true;
     }
