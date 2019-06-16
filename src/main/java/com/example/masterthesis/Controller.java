@@ -41,7 +41,7 @@ public class Controller {
         return song;
     }
 
-    @GetMapping(path = "databaseWriteMuch/{number}")
+    @GetMapping(path = "databaseWriteMuch")
     public List<Songdata> writeMuchSongs(@RequestBody List<Songdata> songdata) {
         List<Songdata> song = saveSongData(songdata);
         songsRepository.saveAll(song);

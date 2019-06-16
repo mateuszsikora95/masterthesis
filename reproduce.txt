@@ -1,0 +1,63 @@
+//instalacja Dockera oraz pobranie repozytorium
+sudo apt-get update
+sudo apt install docker.io
+mkdir work/
+cd work/
+git clone https://github.com/mateuszsikora95/masterthesis.git
+login
+haslo
+sudo docker login -u login -p haslo
+cd masterthesis/database
+docker network create --attachable bridgenet --driver bridge
+docker network create --attachable overlaynet --driver overlay
+docker build --network bridgenet -t postgresimage .
+docker logs -f postgres
+cd ..
+docker build --network my-net -t performancetestapp .
+docker container create --name postgres --net bridgenet -p 5432:5432 postgresimage
+docker container create --name test --net bridgenet -p 8080:8080 performancetestapp
+docker start postgres
+docker start test
+
+
+//instalacja na serwerze
+//////////////postgres
+sudo apt-get install wget ca-certificates
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+sudo su - postgres
+psql
+CREATE DATABASE masterthesis;
+create user zsbd with encrypted password 'zsbd';
+GRANT ALL PRIVILEGES ON DATABASE masterthesis TO zsbd;
+\q
+
+vim /etc/postgresql/{version}/main/postgresql.conf
+listen_addresses = '*'         # what IP address(es) to listen on;
+
+vim /etc/postgresql/{version}/main/pg_hba.conf
+host all all 0.0.0.0/0 md5
+
+/etc/init.d/postgresql restart
+////////////////////////web system
+mkdir work/
+cd work/
+sudo apt update
+sudo apt install default-jdk
+sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
+wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.14/bin/apache-tomcat-9.0.14.tar.gz -P /tmp
+sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
+sudo ln -s /opt/tomcat/apache-tomcat-9.0.14 /opt/tomcat/latest
+sudo chown -RH tomcat: /opt/tomcat/latest
+sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+git clone https://github.com/mateuszsikora95/masterthesis.git
+login
+haslo
+cd masterthesis
+mvn pom.xml clean package
+cp target/*.war /usr/local/tomcat/webapps/masterthesis.war
+////////////////////////////////
+//instalacja na maszynie wirtualnej -> powtórzyć kroki dla każdej z instalacji na serwerze dla odpowiednich maszyn wirtualnych
+dla jednej maszyny wirtualnej powtorzyc kroki dla postgres. Dla drugiej maszyny wirtualnej powtorzyc kroki dla web system
