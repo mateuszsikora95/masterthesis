@@ -36,14 +36,16 @@ public class Controller {
 
     @PostMapping(path = "databaseWriteLittle")
     public List<Songdata> writeLittleSongs(@RequestBody List<Songdata> songdata) {
-        songsRepository.saveAll(saveSongData(songdata));
-        return true;
+        List<Songdata> song = saveSongData(songdata);
+        songsRepository.saveAll(song);
+        return song;
     }
 
     @GetMapping(path = "databaseWriteMuch/{number}")
     public List<Songdata> writeMuchSongs(@RequestBody List<Songdata> songdata) {
-        songsRepository.saveAll(saveSongData(songdata));
-        return true;
+        List<Songdata> song = saveSongData(songdata);
+        songsRepository.saveAll(song);
+        return song;
     }
 
     private List<Songdata> saveSongData(List<Songdata> songdata) {

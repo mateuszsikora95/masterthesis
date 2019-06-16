@@ -1,3 +1,4 @@
+//instalacja Dockera oraz pobranie repozytorium
 sudo apt-get update
 sudo apt install docker.io
 mkdir work/
@@ -13,6 +14,7 @@ docker build --network bridgenet -t postgresimage .
 docker logs -f postgres
 cd ..
 docker build --network my-net -t performancetestapp .
-docker container create --name postgres --net bridge -p 5432:5432 postgresimage
-docker container create --name test --net my-net -p 8080:8080 performancetestapp
-
+docker container create --name postgres --net bridgenet -p 5432:5432 postgresimage
+docker container create --name test --net bridgenet -p 8080:8080 performancetestapp
+docker start postgres
+docker start test
